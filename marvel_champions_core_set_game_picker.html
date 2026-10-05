@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Marvel Champions Core Set - Spillvelger og sjekkliste</title>
+<style>
+:root {
+  --bg:#0d1015; --panel:#171b23; --panel2:#202631; --panel3:#11151b;
+  --text:#f5f6f8; --muted:#aeb6c3; --line:#303744; --accent:#8b6cff;
+  --hero:#7f66ff; --agg:#d65353; --jus:#d8b24a; --lead:#6d87d8; --prot:#56a06e;
+  --basic:#9ba3af; --enc:#bc5d8e; --warn:#ffd27a; --good:#76d7a5;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap{width:min(1120px,calc(100% - 24px));margin:20px auto 64px}
+header{background:linear-gradient(135deg,#261f45,#151922 70%);padding:24px;border-radius:18px;box-shadow:0 12px 34px rgba(0,0,0,.25)}
+h1{margin:0;font-size:clamp(28px,5vw,48px);line-height:1.05} h2{margin:0 0 12px} h3{margin:0}
+.sub{margin:8px 0 0;color:var(--muted);line-height:1.45}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.choice{background:var(--panel3);border:1px solid var(--line);border-radius:13px;padding:13px}
+.choice.selected{outline:2px solid var(--accent);outline-offset:-2px}
+.choice-top{display:flex;gap:10px;align-items:flex-start}
+.choice input[type=checkbox],.choice input[type=radio]{width:20px;height:20px;accent-color:var(--accent);margin-top:2px}
+.choice label{font-weight:800;cursor:pointer}
+.small{font-size:12px;color:var(--muted);line-height:1.4}
+select{width:100%;margin-top:10px;background:#0f1319;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:9px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+button{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:10px 13px;font-weight:750;cursor:pointer}
+button:hover{filter:brightness(1.08)}
+.primary{background:#6048c9;border-color:#795fff}
+.warning{background:#2c2517;border:1px solid #65522c;color:var(--warn);border-radius:11px;padding:10px 12px;margin-top:12px;display:none}
+.good{color:var(--good)}
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:760px){.summary{grid-template-columns:1fr}}
+.deck-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:16px}
+.deck-head{padding:15px 17px;background:var(--panel2);display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.deck-body{padding:14px 16px}
+.group{margin-top:14px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.group-title{padding:9px 11px;background:#141922;font-weight:800;display:flex;justify-content:space-between;gap:8px}
+.group-title.hero{border-left:5px solid var(--hero)} .group-title.aggression{border-left:5px solid var(--agg)}
+.group-title.justice{border-left:5px solid var(--jus)} .group-title.leadership{border-left:5px solid var(--lead)}
+.group-title.protection{border-left:5px solid var(--prot)} .group-title.basic{border-left:5px solid var(--basic)}
+.group-title.encounter{border-left:5px solid var(--enc)}
+.item{display:grid;grid-template-columns:24px 1fr auto;gap:9px;align-items:center;padding:9px 10px;background:#10141a}
+.item:nth-child(even){background:#12171e} .item input{width:18px;height:18px;accent-color:var(--accent)}
+.item.checked .name{text-decoration:line-through;color:#77808e}
+.qty{font-weight:800;color:#cbbfff;background:#222633;padding:3px 7px;border-radius:999px;min-width:38px;text-align:center}
+.note{padding:10px 12px;background:#10141a;color:var(--muted);font-size:13px;line-height:1.45}
+.progress{height:10px;background:#0b0e12;border-radius:99px;overflow:hidden;min-width:160px}
+.progress>span{display:block;height:100%;background:linear-gradient(90deg,#7155db,#b19fff);width:0}
+.pill{font-size:12px;font-weight:800;padding:4px 8px;border-radius:999px;background:#2a3040;color:#d9deea}
+.setup-box{background:#10141a;border:1px solid var(--line);border-radius:13px;padding:13px}
+.setup-box h3{font-size:15px;margin-bottom:8px}
+.setup-box ul{margin:7px 0 0;padding-left:20px;color:#dce1e9}
+.setup-box li{margin:5px 0;line-height:1.35}
+details{margin-top:12px;background:#11151b;border:1px solid var(--line);border-radius:12px;padding:11px}
+summary{cursor:pointer;font-weight:800}
+.library{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:850px){.library{grid-template-columns:1fr}}
+footer{margin-top:20px;color:var(--muted);font-size:12px;line-height:1.5;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Marvel Champions Core Set</h1>
+  <p class="sub">Velg helter, aspect, villain, vanskelighetsgrad og modular set. Siden lager en komplett sjekkliste for det spillet dere skal sette opp.</p>
+</header>
+
+<section class="panel">
+  <h2>1. Velg helter</h2>
+  <p class="sub">Hver valgt helt får 15 hero-kort, 14 kort fra valgt aspect og 11 Basic-kort. Det gir 40 kort.</p>
+  <div class="grid" id="heroChoices"></div>
+  <div class="warning" id="aspectWarning"></div>
+</section>
+
+<section class="panel">
+  <h2>2. Velg villain og oppsett</h2>
+  <div class="grid" id="villainChoices"></div>
+  <div class="row" style="margin-top:14px">
+    <strong>Vanskelighetsgrad:</strong>
+    <label><input type="radio" name="difficulty" value="standard" checked> Standard</label>
+    <label><input type="radio" name="difficulty" value="expert"> Expert</label>
+  </div>
+  <div class="row" style="margin-top:12px">
+    <strong>Modular set:</strong>
+    <select id="modularSelect" style="width:auto;min-width:220px"></select>
+    <button id="recommendedBtn">Bruk anbefalt</button>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="row" style="justify-content:space-between">
+    <div>
+      <h2>3. Sjekkliste for valgt spill</h2>
+      <p class="sub" id="gameSummary">Velg minst én helt og én villain.</p>
+    </div>
+    <div class="row">
+      <button id="clearChecks">Nullstill avkrysninger</button>
+      <button class="primary" id="checkAllVisible">Marker alt synlig</button>
+    </div>
+  </div>
+  <div id="setupNotes" class="summary" style="margin-top:14px"></div>
+  <div id="generated"></div>
+</section>
+
+<section class="panel">
+  <h2>Hele Core Set biblioteket</h2>
+  <p class="sub">Bruk dette som oppslagsverk. Nemesis-settene starter ikke i encounter-decket. De legges til side og kan komme inn gjennom Shadow of the Past. Obligation-kortet til hver valgt helt går i encounter-decket ved setup.</p>
+  <div class="library">
+    <div>
+      <details>
+        <summary>Aspect-pakker</summary>
+        <div id="aspectLibrary"></div>
+      </details>
+      <details>
+        <summary>Basic-pakken</summary>
+        <div id="basicLibrary"></div>
+      </details>
+    </div>
+    <div>
+      <details>
+        <summary>Modular encounter sets</summary>
+        <div id="modularLibrary"></div>
+      </details>
+      <details>
+        <summary>Standard og Expert</summary>
+        <div id="difficultyLibrary"></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+Core Set. Offisielle starterkombinasjoner som er forhåndsvalgt: Spider-Man Justice, Captain Marvel Leadership, She-Hulk Aggression, Iron Man Aggression og Black Panther Protection. She-Hulk og Iron Man sine anbefalte starterdecks bruker samme Aggression-pakke og kan derfor ikke bygges samtidig fra ett Core Set uten å endre deckene.
+</footer>
+</div>
+
+<script>
+const DATA = {"heroes": {"spiderman": {"name": "Spider-Man", "alter": "Peter Parker", "starter": "justice", "signature": [["Black Cat", 1], ["Backflip", 2], ["Enhanced Spider-Sense", 2], ["Swinging Web Kick", 3], ["Aunt May", 1], ["Spider-Tracer", 2], ["Web-Shooter", 2], ["Webbed Up", 2]], "obligation": [["Eviction Notice", 1]], "nemesis_name": "Vulture", "nemesis": [["Highway Robbery", 1], ["Vulture", 1], ["Sweeping Swoop", 2], ["The Vulture's Plans", 1]]}, "captainmarvel": {"name": "Captain Marvel", "alter": "Carol Danvers", "starter": "leadership", "signature": [["Spider-Woman", 1], ["Crisis Interdiction", 3], ["Photonic Blast", 3], ["Energy Absorption", 2], ["Alpha Flight Station", 1], ["Captain Marvel's Helmet", 1], ["Cosmic Flight", 2], ["Energy Channel", 2]], "obligation": [["Family Emergency", 1]], "nemesis_name": "Yon-Rogg", "nemesis": [["The Psyche-Magnitron", 1], ["Yon-Rogg", 1], ["Kree Manipulator", 2], ["Yon-Rogg's Treason", 1]]}, "shehulk": {"name": "She-Hulk", "alter": "Jennifer Walters", "starter": "aggression", "signature": [["Hellcat", 1], ["Gamma Slam", 1], ["Ground Stomp", 2], ["Legal Practice", 2], ["One-Two Punch", 3], ["Split Personality", 1], ["Superhuman Law Division", 1], ["Focused Rage", 2], ["Superhuman Strength", 2]], "obligation": [["Legal Work", 1]], "nemesis_name": "Titania", "nemesis": [["Personal Challenge", 1], ["Titania", 1], ["Genetically Enhanced", 1], ["Titania's Fury", 2]]}, "ironman": {"name": "Iron Man", "alter": "Tony Stark", "starter": "aggression", "signature": [["War Machine", 1], ["Repulsor Blast", 3], ["Supersonic Punch", 2], ["Pepper Potts", 1], ["Stark Tower", 1], ["Arc Reactor", 1], ["Mark V Armor", 1], ["Mark V Helmet", 1], ["Powered Gauntlets", 2], ["Rocket Boots", 2]], "obligation": [["Business Problems", 1]], "nemesis_name": "Whiplash", "nemesis": [["Imminent Overload", 1], ["Whiplash", 1], ["Electric Whip Attack", 2], ["Electromagnetic Backlash", 1]]}, "blackpanther": {"name": "Black Panther", "alter": "T'Challa", "starter": "protection", "signature": [["Shuri", 1], ["Ancestral Knowledge", 1], ["Wakanda Forever!", 5], ["Vibranium", 3], ["The Golden City", 1], ["Energy Daggers", 1], ["Panther Claws", 1], ["Tactical Genius", 1], ["Vibranium Suit", 1]], "obligation": [["Affairs of State", 1]], "nemesis_name": "Killmonger", "nemesis": [["Usurp the Throne", 1], ["Killmonger", 1], ["Heart-Shaped Herb", 1], ["Ritual Combat", 2]]}}, "aspects": {"aggression": {"name": "Aggression", "cards": [["Hulk", 1], ["Tigra", 1], ["Chase Them Down", 2], ["Relentless Assault", 2], ["Uppercut", 2], ["The Power of Aggression", 2], ["Tac Team", 2], ["Combat Training", 2]]}, "justice": {"name": "Justice", "cards": [["Daredevil", 1], ["Jessica Jones", 1], ["For Justice!", 3], ["Great Responsibility", 2], ["The Power of Justice", 2], ["Interrogation Room", 1], ["Surveillance Team", 3], ["Heroic Intuition", 1]]}, "leadership": {"name": "Leadership", "cards": [["Hawkeye", 1], ["Maria Hill", 1], ["Vision", 1], ["Get Ready", 2], ["Lead from the Front", 2], ["Make the Call", 2], ["The Power of Leadership", 2], ["The Triskelion", 1], ["Inspired", 2]]}, "protection": {"name": "Protection", "cards": [["Black Widow", 1], ["Luke Cage", 1], ["Counter-Punch", 2], ["Get Behind Me!", 2], ["The Power of Protection", 2], ["Med Team", 2], ["Armored Vest", 2], ["Indomitable", 2]]}}, "basic": [["Mockingbird", 1], ["Nick Fury", 1], ["Emergency", 1], ["First Aid", 1], ["Haymaker", 1], ["Energy", 1], ["Genius", 1], ["Strength", 1], ["Avengers Mansion", 1], ["Helicarrier", 1], ["Tenacity", 1]], "modulars": {"bombscare": {"name": "Bomb Scare", "cards": [["Bomb Scare", 1], ["Hydra Bomber", 2], ["Explosion", 1], ["False Alarm", 2]]}, "mastersofevil": {"name": "Masters of Evil", "cards": [["The Masters of Evil", 1], ["Radioactive Man", 1], ["Whirlwind", 1], ["Tiger Shark", 1], ["Melter", 1], ["Masters of Mayhem", 2]]}, "underattack": {"name": "Under Attack", "cards": [["Under Attack", 1], ["Vibranium Armor", 1], ["Concussion Blasters", 1], ["Concussive Blast", 2]]}, "legionsofhydra": {"name": "Legions of Hydra", "cards": [["Legions of Hydra", 2], ["Madame Hydra", 1], ["Hydra Soldier", 3]]}, "doomsdaychair": {"name": "The Doomsday Chair", "cards": [["The Doomsday Chair", 2], ["M.O.D.O.K.", 1], ["Biomechanical Upgrades", 3]]}}, "standard": [["Advance", 2], ["Assault", 2], ["Caught Off Guard", 1], ["Gang-Up", 1], ["Shadow of the Past", 1]], "expert": [["Exhaustion", 1], ["Masterplan", 1], ["Under Fire", 1]], "villains": {"rhino": {"name": "Rhino", "recommended": "bombscare", "stages": {"standard": ["Rhino I", "Rhino II"], "expert": ["Rhino II", "Rhino III"]}, "board": [["The Break-In! main scheme", 1]], "encounter": [["Armored Rhino Suit", 1], ["Charge", 2], ["Enhanced Ivory Horn", 1], ["Hydra Mercenary", 2], ["Sandman", 1], ["Shocker", 1], ["Hard to Keep Down", 2], ["I'm Tough", 2], ["Stampede", 3], ["Breakin' & Takin'", 1], ["Crowd Control", 1]], "setup": ["Bruk Rhino I + II på Standard, Rhino II + III på Expert.", "Legg The Break-In! 1A frem og følg setup. Snu deretter til 1B."]}, "klaw": {"name": "Klaw", "recommended": "mastersofevil", "stages": {"standard": ["Klaw I", "Klaw II"], "expert": ["Klaw II", "Klaw III"]}, "board": [["Underground Distribution main scheme", 1], ["Secret Rendezvous main scheme", 1]], "encounter": [["Sonic Converter", 1], ["Solid-Sound Body", 1], ["Armored Guard", 3], ["Weapons Runner", 2], ["Klaw's Vengeance", 2], ["Sonic Boom", 2], ["Sound Manipulation", 2], ["Defense Network", 1], ["Illegal Arms Factory", 1], ["The \"Immortal\" Klaw", 1]], "setup": ["Bruk Klaw I + II på Standard, Klaw II + III på Expert.", "Legg Underground Distribution 1A frem.", "Finn Defense Network i encounter-decket og reveal den før encounter-decket stokkes.", "Secret Rendezvous ligger klar som neste main scheme."]}, "ultron": {"name": "Ultron", "recommended": "underattack", "stages": {"standard": ["Ultron I", "Ultron II"], "expert": ["Ultron II", "Ultron III"]}, "board": [["The Crimson Cowl main scheme", 1], ["Assault on NORAD main scheme", 1], ["Countdown to Oblivion main scheme", 1], ["Ultron Drones environment", 1]], "encounter": [["Program Transmitter", 1], ["Upgraded Drones", 2], ["Advanced Ultron Drone", 3], ["Android Efficiency", 3], ["Rage of Ultron", 2], ["Repair Sequence", 2], ["Swarm Attack", 2], ["Drone Factory", 1], ["Invasive AI", 1], ["Ultron's Imperative", 1]], "setup": ["Bruk Ultron I + II på Standard, Ultron II + III på Expert.", "Legg Ultron Drones environment i spill.", "Legg The Crimson Cowl 1A frem og følg setup. Når 1B reveales får hver spiller en Drone fra toppen av eget deck.", "Assault on NORAD og Countdown to Oblivion ligger klare som neste main schemes."]}}};
+const STORAGE = "mc-core-master-checklist-v2";
+
+const state = {
+  heroes: {},
+  villain: "rhino",
+  difficulty: "standard",
+  modular: "bombscare",
+  checks: {}
+};
+
+function loadState() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STORAGE) || "{}");
+    Object.assign(state, s);
+    state.heroes = state.heroes || {};
+    state.checks = state.checks || {};
+  } catch(e) {}
+}
+function saveState() { localStorage.setItem(STORAGE, JSON.stringify(state)); }
+function esc(s) { return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function slug(s) { return String(s).toLowerCase().replace(/[^a-z0-9æøå]+/g,"-").replace(/(^-|-$)/g,""); }
+function sumCards(arr) { return arr.reduce((n,x)=>n+x[1],0); }
+function itemKey(scope,name) { return scope+"::"+name; }
+
+function checkboxItem(scope, name, qty) {
+  const key = itemKey(scope,name);
+  const checked = !!state.checks[key];
+  return `<div class="item ${checked?"checked":""}">
+    <input type="checkbox" data-checkkey="${esc(key)}" ${checked?"checked":""}>
+    <span class="name">${esc(name)}</span><span class="qty">×${qty}</span>
+  </div>`;
+}
+function group(title, cls, scope, cards, note="") {
+  const total = sumCards(cards);
+  return `<div class="group">
+    <div class="group-title ${cls}"><span>${esc(title)}</span><span class="pill">${total} kort</span></div>
+    ${cards.map(c=>checkboxItem(scope,c[0],c[1])).join("")}
+    ${note?`<div class="note">${note}</div>`:""}
+  </div>`;
+}
+
+function renderHeroChoices() {
+  const box = document.getElementById("heroChoices");
+  box.innerHTML = Object.entries(DATA.heroes).map(([id,h]) => {
+    const selected = !!state.heroes[id];
+    const aspect = state.heroes[id]?.aspect || h.starter;
+    return `<div class="choice ${selected?"selected":""}">
+      <div class="choice-top">
+        <input type="checkbox" id="hero-${id}" data-hero="${id}" ${selected?"checked":""}>
+        <div>
+          <label for="hero-${id}">${esc(h.name)}</label>
+          <div class="small">${esc(h.alter)} • starter: ${esc(DATA.aspects[h.starter].name)}</div>
+        </div>
+      </div>
+      <select data-aspect-for="${id}">
+        ${Object.entries(DATA.aspects).map(([aid,a])=>`<option value="${aid}" ${aid===aspect?"selected":""}>${esc(a.name)}</option>`).join("")}
+      </select>
+    </div>`;
+  }).join("");
+
+  box.querySelectorAll("[data-hero]").forEach(cb => cb.addEventListener("change", e => {
+    const id = e.target.dataset.hero;
+    if (e.target.checked) {
+      const select = box.querySelector(`[data-aspect-for="${id}"]`);
+      state.heroes[id] = {aspect: select.value};
+    } else delete state.heroes[id];
+    saveState(); renderAll();
+  }));
+  box.querySelectorAll("[data-aspect-for]").forEach(sel => sel.addEventListener("change", e => {
+    const id = e.target.dataset.aspectFor;
+    if (state.heroes[id]) state.heroes[id].aspect = e.target.value;
+    saveState(); renderAll();
+  }));
+}
+
+function renderVillainChoices() {
+  const box = document.getElementById("villainChoices");
+  box.innerHTML = Object.entries(DATA.villains).map(([id,v]) => `
+    <div class="choice ${state.villain===id?"selected":""}">
+      <div class="choice-top">
+        <input type="radio" name="villain" id="villain-${id}" value="${id}" ${state.villain===id?"checked":""}>
+        <div><label for="villain-${id}">${esc(v.name)}</label>
+        <div class="small">Anbefalt modular: ${esc(DATA.modulars[v.recommended].name)}</div></div>
+      </div>
+    </div>`).join("");
+  box.querySelectorAll('input[name="villain"]').forEach(r=>r.addEventListener("change",e=>{
+    state.villain=e.target.value;
+    state.modular=DATA.villains[state.villain].recommended;
+    saveState(); renderAll();
+  }));
+}
+
+function renderModularSelect() {
+  const sel = document.getElementById("modularSelect");
+  sel.innerHTML = Object.entries(DATA.modulars).map(([id,m])=>`<option value="${id}" ${id===state.modular?"selected":""}>${esc(m.name)}</option>`).join("");
+  sel.onchange = e => { state.modular=e.target.value; saveState(); renderAll(); };
+}
+
+function renderWarning() {
+  const counts={};
+  Object.values(state.heroes).forEach(h=>counts[h.aspect]=(counts[h.aspect]||0)+1);
+  const dupes=Object.entries(counts).filter(x=>x[1]>1);
+  const w=document.getElementById("aspectWarning");
+  if(dupes.length) {
+    w.style.display="block";
+    w.textContent="Obs: Dere har valgt samme aspect til flere helter: "+dupes.map(([a,n])=>DATA.aspects[a].name+" ×"+n).join(", ")+". Ett Core Set har ikke to komplette kopier av samme 14-korts aspectpakke, så disse deckene må justeres hvis de skal spilles samtidig.";
+  } else w.style.display="none";
+}
+
+function renderGenerated() {
+  const out=document.getElementById("generated");
+  const selected=Object.entries(state.heroes);
+  const villain=DATA.villains[state.villain];
+  if(!selected.length || !villain) {
+    out.innerHTML="";
+    document.getElementById("gameSummary").textContent="Velg minst én helt og én villain.";
+    document.getElementById("setupNotes").innerHTML="";
+    return;
+  }
+
+  const heroNames=selected.map(([id])=>DATA.heroes[id].name).join(" + ");
+  const diffName=state.difficulty==="expert"?"Expert":"Standard";
+  document.getElementById("gameSummary").textContent=`${heroNames} mot ${villain.name} • ${diffName} • ${DATA.modulars[state.modular].name}`;
+
+  const setup=document.getElementById("setupNotes");
+  setup.innerHTML = `
+    <div class="setup-box"><h3>Villain setup</h3><ul>${villain.setup.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+    <div class="setup-box"><h3>Hero encounter-kort</h3><ul>
+      <li>Legg obligation-kortet til hver valgt helt i encounter-decket.</li>
+      <li>Legg hvert nemesis-sett til side. Det starter ikke i encounter-decket.</li>
+      <li>Shadow of the Past kan hente inn nemesis-settet senere.</li>
+    </ul></div>`;
+
+  let html="";
+  for(const [id,hs] of selected) {
+    const h=DATA.heroes[id], a=DATA.aspects[hs.aspect];
+    const total=15+sumCards(a.cards)+sumCards(DATA.basic);
+    html += `<div class="deck-card">
+      <div class="deck-head"><div><h3>${esc(h.name)} / ${esc(a.name)}</h3><div class="small">${esc(h.alter)} • ${total} kort i spillerdecket</div></div>
+      <span class="pill">${h.starter===hs.aspect?"Offisiell starterkombinasjon":"Egen Core Set kombinasjon"}</span></div>
+      <div class="deck-body">
+        ${group(h.name+" hero-kort","hero",id+"-signature",h.signature)}
+        ${group(a.name,""+hs.aspect,id+"-"+hs.aspect,a.cards)}
+        ${group("Basic","basic",id+"-basic",DATA.basic)}
+        ${group("Obligation","encounter",id+"-obligation",h.obligation,"Dette kortet blandes inn i encounter-decket ved setup.")}
+        ${group("Nemesis: "+h.nemesis_name,"encounter",id+"-nemesis",h.nemesis,"Legges til side ved setup. Ikke bland inn i encounter-decket før en effekt ber om det.")}
+      </div></div>`;
+  }
+
+  const stageCards=villain.stages[state.difficulty].map(x=>[x,1]);
+  const encounterCards=villain.encounter.filter(c => {
+    if(state.villain==="klaw" && c[0]==="Defense Network") return false;
+    return true;
+  });
+  const modular=DATA.modulars[state.modular];
+
+  html += `<div class="deck-card">
+    <div class="deck-head"><div><h3>${esc(villain.name)} scenario</h3><div class="small">${diffName} • modular: ${esc(modular.name)}</div></div><span class="pill">Encounter setup</span></div>
+    <div class="deck-body">
+      ${group("Villain stages","encounter","villain-stages",stageCards)}
+      ${group("Main schemes og kort som starter på bordet","encounter","villain-board",villain.board)}
+      ${state.villain==="klaw"?group("Setup side scheme","encounter","villain-setupside",[["Defense Network",1]],"Reveal denne under Klaw setup før encounter-decket stokkes."):""}
+      ${group(villain.name+" encounter-kort","encounter","villain-encounter",encounterCards)}
+      ${group("Standard encounter set","encounter","standard",DATA.standard)}
+      ${state.difficulty==="expert"?group("Expert encounter set","encounter","expert",DATA.expert):""}
+      ${group("Modular: "+modular.name,"encounter","modular-"+state.modular,modular.cards)}
+    </div></div>`;
+
+  out.innerHTML=html;
+  bindChecks(out);
+}
+
+function bindChecks(root=document) {
+  root.querySelectorAll("[data-checkkey]").forEach(cb=>cb.addEventListener("change",e=>{
+    state.checks[e.target.dataset.checkkey]=e.target.checked;
+    e.target.closest(".item").classList.toggle("checked",e.target.checked);
+    saveState();
+  }));
+}
+
+function renderLibrary() {
+  document.getElementById("aspectLibrary").innerHTML=Object.entries(DATA.aspects).map(([id,a])=>group(a.name,id,"lib-"+id,a.cards)).join("");
+  document.getElementById("basicLibrary").innerHTML=group("Basic","basic","lib-basic",DATA.basic);
+  document.getElementById("modularLibrary").innerHTML=Object.entries(DATA.modulars).map(([id,m])=>group(m.name,"encounter","lib-mod-"+id,m.cards)).join("");
+  document.getElementById("difficultyLibrary").innerHTML=group("Standard","encounter","lib-standard",DATA.standard)+group("Expert","encounter","lib-expert",DATA.expert);
+  bindChecks(document.getElementById("aspectLibrary"));
+  bindChecks(document.getElementById("basicLibrary"));
+  bindChecks(document.getElementById("modularLibrary"));
+  bindChecks(document.getElementById("difficultyLibrary"));
+}
+
+function renderAll() {
+  renderHeroChoices();
+  renderVillainChoices();
+  document.querySelectorAll('input[name="difficulty"]').forEach(r=>r.checked=r.value===state.difficulty);
+  renderModularSelect();
+  renderWarning();
+  renderGenerated();
+  renderLibrary();
+}
+
+loadState();
+document.querySelectorAll('input[name="difficulty"]').forEach(r=>r.addEventListener("change",e=>{state.difficulty=e.target.value;saveState();renderAll();}));
+document.getElementById("recommendedBtn").onclick=()=>{state.modular=DATA.villains[state.villain].recommended;saveState();renderAll();};
+document.getElementById("clearChecks").onclick=()=>{state.checks={};saveState();renderAll();};
+document.getElementById("checkAllVisible").onclick=()=>{
+  document.querySelectorAll("#generated [data-checkkey]").forEach(cb=>{cb.checked=true;state.checks[cb.dataset.checkkey]=true;});
+  saveState();renderAll();
+};
+renderAll();
+</script>
+</body>
+</html>
